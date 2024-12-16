@@ -6,10 +6,6 @@
     <title>Unity WebGL Player | 2DEmptySample</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
-
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -104,15 +100,12 @@
 
       loadingBar.style.display = "block";
 
-      var myGameInstance = null; // для обращения к Unity
-
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
               }).then((unityInstance) => {
-                myGameInstance = unityInstance;
                 loadingBar.style.display = "none";
                 fullscreenButton.onclick = () => {
                   unityInstance.SetFullscreen(1);
@@ -123,41 +116,6 @@
             };
 
       document.body.appendChild(script);
-
-    </script>
-
-    <script>   // Пользовательский код
-      function FromUnityToJs ()   // функция вызывается из Unity
-      {
-        callMethodPostStory();
-      }
-
-      function callMethodPostStory() // вызываем метод ВК
-      {
-        vkBridge.send('VKWebAppShowStoryBox', {
-        background_type: 'image',
-        url : 'https://sun9-65.userapi.com/c850136/v850136098/1b77eb/0YK6suXkY24.jpg',
-        attachment: {
-          text: 'book',
-          type: 'photo',
-          owner_id: 743784474,
-          id: 12345678
-        }})
-        .then((data) => {
-          if (data.code_data) {
-            // Редактор историй открыт
-            console.log(data);
-          }})
-        .catch((error) => {
-          // Ошибка
-          console.log(error);
-        });
-      }
-
-      jQuery(document).ready(function($) // страница прогружена
-      {
-        vkBridge.send('VKWebAppInit');
-      });
 
     </script>
 
